@@ -100,7 +100,7 @@ const RentProperties = () => {
         </div>
       </form>
       {/* rent properties */}
-      {loader ? (
+      {properties && loader ? (
         <div className="mx-auto w-20">
           <progress className="progress w-full"></progress>
         </div>
