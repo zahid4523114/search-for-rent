@@ -3,7 +3,7 @@ import Properties from "../Properties/Properties";
 
 const RentProperties = () => {
   const [properties, setProperties] = useState([]);
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState();
 
   const handleSearchRent = (event) => {
     event.preventDefault();
@@ -20,7 +20,7 @@ const RentProperties = () => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setLoader(true);
         setProperties(data);
         setLoader(false);
       });
@@ -100,7 +100,7 @@ const RentProperties = () => {
         </div>
       </form>
       {/* rent properties */}
-      {properties && loader ? (
+      {loader ? (
         <div className="mx-auto w-20">
           <progress className="progress w-full"></progress>
         </div>
