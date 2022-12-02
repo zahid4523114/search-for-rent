@@ -9,6 +9,10 @@ export const router = createBrowserRouter([
     element: <Main></Main>,
     children: [
       {
+        path: "/",
+        element: <RentProperties></RentProperties>,
+      },
+      {
         path: "/rentProperties",
         element: <RentProperties></RentProperties>,
       },

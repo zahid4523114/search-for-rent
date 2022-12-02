@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import Properties from "../Properties/Properties";
 
 const RentProperties = () => {
+  const [properties, setProperties] = useState([]);
+
   const handleSearchRent = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -9,14 +12,24 @@ const RentProperties = () => {
     const date = form.date.value;
     const price = form.price.value;
     const type = form.type.value;
-    console.log(location, date, price, type);
+
+    //get data by query
+    const url = `https://real-state-rent-sell-server.vercel.app/rentProperties?name=${type}&price=${price}&location=${location}&date=${date}`;
+    // console.log(url);
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setProperties(data);
+      });
   };
+  //   console.log(properties);
   return (
     <section className="lg:m-10 m-3">
       <div className="lg:flex justify-between items-center">
         <div
           className="lg:tooltip tooltip-open lg:tooltip-right"
-          data-tip="Dec-1 to Dec-4 hurry up!"
+          data-tip="Dec-1 to Dec-3 hurry up!"
         >
           <h1 className="font-bold lg:text-4xl lg:mb-0 mb-3 text-2xl">
             Search property to rent
@@ -26,7 +39,7 @@ const RentProperties = () => {
           <div className="input-group ">
             <select className="select select-bordered">
               <option disabled selected>
-                Pick category
+                Search with Search Bar
               </option>
               <option>T-shirts</option>
               <option>Mugs</option>
@@ -46,11 +59,7 @@ const RentProperties = () => {
             <option disabled selected>
               Location
             </option>
-            <option className="font-bold">Homer</option>
-            <option className="font-bold">Marge</option>
-            <option className="font-bold">Bart</option>
-            <option className="font-bold">Lisa</option>
-            <option>Maggie</option>
+            <option className="font-bold">New-York,USA</option>
           </select>
           <select
             name="date"
@@ -59,10 +68,9 @@ const RentProperties = () => {
             <option disabled selected>
               When
             </option>
-            <option className="font-bold">Dec-1-2022</option>
-            <option className="font-bold">Dec-2-2022</option>
-            <option className="font-bold">Dec-3-2022</option>
-            <option className="font-bold">Dec-4-2022</option>
+            <option className="font-bold">Dec-1-22</option>
+            <option className="font-bold">Dec-2-22</option>
+            <option className="font-bold">Dec-3-22</option>
           </select>
           <select
             name="price"
@@ -82,14 +90,19 @@ const RentProperties = () => {
             <option disabled selected>
               Property Type
             </option>
-            <option className="font-bold">Single-Family Homes</option>
-            <option className="font-bold">Semi-Detached Home</option>
-            <option className="font-bold">Multifamily Homes</option>
-            <option className="font-bold">Apartments </option>
+            <option className="font-bold">Single-Family-Homes</option>
+            <option className="font-bold">Semi-Detached-Home</option>
+            <option className="font-bold">Multifamily-Homes</option>
           </select>
           <button className="btn btn-primary text-white ">Search</button>
         </div>
       </form>
+      {/* rent properties */}
+      <div className="flex justify-between lg:flex-row flex-col my-10">
+        {properties.map((property, i) => (
+          <Properties key={i} rent={property}></Properties>
+        ))}
+      </div>
     </section>
   );
 };
