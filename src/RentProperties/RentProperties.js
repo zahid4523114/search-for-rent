@@ -3,6 +3,7 @@ import Properties from "../Properties/Properties";
 
 const RentProperties = () => {
   const [properties, setProperties] = useState([]);
+  const [loader, setLoader] = useState(true);
 
   const handleSearchRent = (event) => {
     event.preventDefault();
@@ -21,6 +22,7 @@ const RentProperties = () => {
       .then((data) => {
         console.log(data);
         setProperties(data);
+        setLoader(false);
       });
   };
   //   console.log(properties);
@@ -98,11 +100,17 @@ const RentProperties = () => {
         </div>
       </form>
       {/* rent properties */}
-      <div className="flex justify-between lg:flex-row flex-col my-10">
-        {properties.map((property, i) => (
-          <Properties key={i} rent={property}></Properties>
-        ))}
-      </div>
+      {loader ? (
+        <div className="mx-auto w-20">
+          <progress className="progress w-full"></progress>
+        </div>
+      ) : (
+        <div className="flex justify-between lg:flex-row flex-col my-10">
+          {properties.map((property, i) => (
+            <Properties key={i} rent={property}></Properties>
+          ))}
+        </div>
+      )}
     </section>
   );
 };
